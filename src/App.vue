@@ -1,9 +1,9 @@
 <template>
   <div>
     <TodoHeader></TodoHeader>
-    <TodoInput></TodoInput>
-    <TodoList></TodoList>
-    <TodoFooter></TodoFooter>
+    <TodoInput v-on:addTodo="addTodo"></TodoInput>
+    <TodoList v-bind:propsdata="todoItems" v-on:removeTodo="removeTodo"></TodoList>
+    <TodoFooter v-on:removeAll="clearAll"></TodoFooter>
   </div>
 </template>
 
@@ -13,6 +13,32 @@ import TodoHeader from './components/TodoHeader.vue'
 import TodoInput from './components/TodoInput..vue'
 import TodoList from './components/TodoList.vue'
 export default {
+  data() {
+    return {
+      todoItems: []
+    }
+  },
+      created() {
+        if (localStorage.length > 0) {
+            for (let i = 0; i < localStorage.length; i++) {
+                this.todoItems.push(localStorage.key(i));
+            }
+        }
+    },
+  methods: {
+    addTodo(value) {
+                localStorage.setItem(value, value);
+                this.todoItems.push(value);
+    },
+    removeTodo(todoItem, index) {
+        localStorage.removeItem(todoItem);
+        this.todoItems.splice(index, 1);
+    },
+    clearAll() {
+      localStorage.clear();
+      this.todoItems = [];
+    }
+  },
   components: {
     'TodoHeader' : TodoHeader,
     'TodoInput' : TodoInput,
