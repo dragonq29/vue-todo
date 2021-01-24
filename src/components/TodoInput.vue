@@ -2,7 +2,7 @@
   <div class="inputBox shadow">
     <input
       type="text"
-      v-model="newTodoItem"
+      v-model.trim="newTodoItem"
       placeholder="할일을 입력하세요"
       v-on:keyup.enter="addTodo"
     />
@@ -33,8 +33,7 @@ export default {
   methods: {
     addTodo() {
       if (this.newTodoItem !== "") {
-        let value = this.newTodoItem && this.newTodoItem.trim();
-        this.$emit("addTodo", value);
+        this.$emit("addTodo", this.newTodoItem);
         this.clearInput();
       } else {
           this.showModal = !this.showModal;
